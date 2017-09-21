@@ -1,7 +1,7 @@
 <template>
   <div>
       <h1>
-          hahaha
+          message
       </h1>
   </div>
 </template>
