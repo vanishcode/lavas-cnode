@@ -1,52 +1,43 @@
 <template>
-    <div id="app">
-        <v-app>
-            <div class="app-shell">
-                <app-header
-                    class="app-shell-header"
-                    @click-menu="handleClickHeaderMenu"
-                    @click-back="handleClickHeaderBack">
-                </app-header>
-                <app-sidebar
-                    @hide-sidebar = "handleHideSidebar"
-                    @show-sidebar = "handleShowSidebar"
-                >
-                </app-sidebar>
-                <div class="app-view-wrapper">
-                    <transition
-                        :name="pageTransitionName"
-                        @before-enter="handleBeforeEnter"
-                        @after-enter="handleAfterEnter">
-                        <keep-alive>
-                            <router-view
-                                :key="$route.fullPath"
-                                v-if="!$route.meta.notKeepAlive"
-                                class="app-view"
-                                :class="{
-                                    'app-view-with-header': appHeader.show
-                                }"></router-view>
-                        </keep-alive>
-                    </transition>
-                    <transition
-                        :name="pageTransitionName"
-                        @before-enter="handleBeforeEnter"
-                        @after-enter="handleAfterEnter">
-                        <router-view
-                            :key="$route.fullPath"
-                            v-if="$route.meta.notKeepAlive"
-                            class="app-view"
-                            :class="{
-                                'app-view-with-header': appHeader.show
-                            }"></router-view>
-                    </transition>
-                </div>
+<div id="app">
+
+    <v-app>
+        <div class="app-shell">
+
+            <app-header class="app-shell-header" @click-menu="handleClickHeaderMenu" @click-back="handleClickHeaderBack">
+            </app-header>
+
+            <v-alert class="app-shell-alert" success :value="alert" transition="scale-transition">
+                This is a success alert.
+            </v-alert>
+
+            <app-sidebar @hide-sidebar="handleHideSidebar" @show-sidebar="handleShowSidebar">
+            </app-sidebar>
+            <div class="app-view-wrapper">
+
+                <transition :name="pageTransitionName" @before-enter="handleBeforeEnter" @after-enter="handleAfterEnter">
+                    <keep-alive>
+                        <router-view :key="$route.fullPath" v-if="!$route.meta.notKeepAlive" class="app-view" :class="{
+                                            'app-view-with-header': appHeader.show
+                                        }"></router-view>
+                    </keep-alive>
+                </transition>
+                <transition :name="pageTransitionName" @before-enter="handleBeforeEnter" @after-enter="handleAfterEnter">
+                    <router-view :key="$route.fullPath" v-if="$route.meta.notKeepAlive" class="app-view" :class="{
+                                        'app-view-with-header': appHeader.show
+                                    }"></router-view>
+                </transition>
             </div>
-        </v-app>
-    </div>
+        </div>
+    </v-app>
+</div>
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import {
+    mapState,
+    mapActions
+} from 'vuex';
 import AppHeader from '@/components/AppHeader';
 import AppSidebar from '@/components/AppSidebar';
 
@@ -57,7 +48,9 @@ export default {
         AppSidebar
     },
     data() {
-        return {};
+        return {
+            alert: false
+        };
     },
 
     computed: {
@@ -131,6 +124,13 @@ body
         top 0
         left 0
         right 0
+
+    .app-shell-alert
+        position fixed
+        top 0
+        left 0
+        right 0
+        z-index 99999999
 
     .app-view-wrapper
         flex 1

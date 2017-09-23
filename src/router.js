@@ -65,7 +65,7 @@ export function createRouter() {
                 name: 'user',
                 component: User,
                 meta: {
-                    notKeepAlive: false
+                    notKeepAlive: true
                 }
             },
             {

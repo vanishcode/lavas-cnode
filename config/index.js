@@ -40,7 +40,15 @@ module.exports = {
         autoOpenBrowser: true,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
-        proxyTable: {},
+        proxyTable: {
+            // '/api': {
+            //     target: 'https://cnodejs.org',
+            //     changeOrigin: true,
+            //     pathRewrite: {
+            //         '^/api': '/api'
+            //     }
+            // }
+        },
 
         // CSS Sourcemaps off by default because relative paths are "buggy"
         // with this option, according to the CSS-Loader README

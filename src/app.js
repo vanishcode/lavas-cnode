@@ -15,6 +15,8 @@ import {
     VBottomNav,
     VGrid,
     VAvatar,
+    VTextField,
+    VAlert
 
 } from 'vuetify';
 import { createRouter } from './router';
@@ -22,6 +24,10 @@ import store from './store';
 import App from './App.vue';
 import Icon from 'vue-awesome/components/Icon.vue';
 import Badge from 'vuetify/src/directives/badge';
+
+import axios from 'axios'
+
+Vue.prototype.$http = axios
 
 //Vue.directive(Badge)
 
@@ -36,6 +42,8 @@ Vue.use(Vuetify, {
         VBottomNav,
         VGrid,
         VAvatar,
+        VTextField,
+        VAlert
     }
 });
 

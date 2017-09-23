@@ -1,50 +1,44 @@
 <template>
-    <transition
-        name="slide-down">
-        <header class="app-header-wrapper" v-show="show">
-            <div class="app-header-left">
-                <v-btn
-                    icon
-                    v-if="showMenu"
-                    @click.native="handleClick('menu')">
-                    <v-icon class="app-header-icon">menu</v-icon>
-                </v-btn>
-                <v-btn
-                    icon
-                    v-if="showBack"
-                    @click.native="handleClick('back')">
-                    <v-icon class="app-header-icon">arrow_back</v-icon>
-                </v-btn>
-                <div v-if="showLogo" @click="handleClick('logo')">
-                    <slot name="logo">
-                        <icon v-if="logoIcon" :name="logoIcon" class="app-header-icon"></icon>
-                    </slot>
-                </div>
-            </div>
-            <div class="app-header-middle" v-cloak>
-                <slot name="title">
-                    {{ title }}
+<transition name="slide-down">
+    <header class="app-header-wrapper" v-show="show">
+        <div class="app-header-left">
+            <v-btn icon v-if="showMenu" @click.native="handleClick('menu')">
+                <v-icon class="app-header-icon">menu</v-icon>
+            </v-btn>
+            <v-btn icon v-if="showBack" @click.native="handleClick('back')">
+                <v-icon class="app-header-icon">arrow_back</v-icon>
+            </v-btn>
+            <div v-if="showLogo" @click="handleClick('logo')">
+                <slot name="logo">
+                    <icon v-if="logoIcon" :name="logoIcon" class="app-header-icon"></icon>
                 </slot>
             </div>
-            <div class="app-header-right">
-                <slot name="actions"
-                    v-for="(action, actionIdx) in actions"
-                    :icon="action.icon"
-                    :route="action.route">
-                    <v-btn
-                        icon="icon"
-                        @click.native="action.act">
-                        <icon v-if="action.svg" :name="action.svg" class="app-header-icon"></icon>
-                        <v-icon v-else-if="action.icon" class="app-header-icon">{{ action.icon }}</v-icon>
-                    </v-btn>
-                </slot>
-            </div>
-        </header>
-    </transition>
+        </div>
+        <div class="app-header-middle" v-cloak>
+            <slot name="title">
+                {{ title }}
+            </slot>
+        </div>
+        <div class="app-header-right">
+            <slot name="actions" v-for="(action, actionIdx) in actions" :icon="action.icon" :route="action.route">
+                <v-btn icon="icon" @click.native="action.act">
+                    <icon v-if="action.svg" :name="action.svg" class="app-header-icon"></icon>
+                    <v-icon v-else-if="action.icon" class="app-header-icon">{{ action.icon }}</v-icon>
+                </v-btn>
+            </slot>
+        </div>
+        <div class="qr-btn" node-type="qr-btn">
+            <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码" />
+            <input type="text" class="tmp" />
+        </div>
+    </header>
+</transition>
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {
+    mapState
+} from 'vuex';
 import EventBus from '@/event-bus';
 
 export default {
@@ -63,33 +57,40 @@ export default {
             'isPageSwitching'
         ])
     },
-    methods: {
+    mounted() {
 
+        // 处理二维码
+        if (this.$route.path == '/login') {
+            Qrcode.init($('[node-type=qr-btn]'))
+        }
+        $('.tmp').on('click', function() {
+            EventBus.$emit('input-ak-through-qrcode', $(this).val())
+        })
+    },
+    methods: {
         /**
          * 处理按钮点击事件
          *
          * @param {string} source 点击事件源名称 menu/logo/action
          * @param {Object} data 随点击事件附带的数据对象
          */
-        handleClick(source, {actionIdx, route} = {}) {
-
+        handleClick(source, {
+            actionIdx,
+            route
+        } = {}) {
             // 页面正在切换中，不允许操作，防止滑动效果进行中切换
             if (this.isPageSwitching) {
                 return;
             }
             let eventData = {};
-
             // 点击右侧动作按钮，事件对象中附加序号
             if (source === 'action') {
                 eventData.actionIdx = actionIdx;
             }
-
             // 发送给父组件，内部处理
             this.$emit(`click-${source}`, eventData);
-
             // 发送全局事件，便于非父子关系的路由组件监听
             EventBus.$emit(`app-header:click-${source}`, eventData);
-
             // 如果传递了路由对象，进入路由
             if (route) {
                 this.$router.push(route);
@@ -131,5 +132,8 @@ $btn-color = #fff
         color $btn-color
         width 20px
         height 20px
-
+    
+    .qr-btn,
+    .tmp
+        display none
 </style>

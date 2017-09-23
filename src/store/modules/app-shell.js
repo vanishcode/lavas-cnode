@@ -230,7 +230,7 @@ export default {
                     list: [{
                         text: '用户',
                         icon: 'person',
-                        route: '/me'
+                        route: '/login'
                     }]
                 }, {
                     list: [{

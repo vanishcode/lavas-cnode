@@ -2,6 +2,7 @@
     <div>
         <div class="content">
             <h2>LAVAS - CNode</h2>
+
         </div>
     </div>
 </template>
@@ -18,9 +19,10 @@ export default {
         ])
 
     },
+    // 只在第一次加载时启用
     async asyncData() {
         await new Promise((resolve, reject) => {
-            setTimeout(resolve, 500);
+            setTimeout(resolve, 8000);
         });
     },
     activated() {
