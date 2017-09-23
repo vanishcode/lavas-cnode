@@ -60,7 +60,6 @@ export default {
         ])
     },
     methods: {
-
         ...mapActions('appShell', [
             'setPageSwitching'
         ]),
