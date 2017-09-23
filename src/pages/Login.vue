@@ -31,7 +31,9 @@ export default {
       }).then(res => {
         console.log(res)
         EventBus.$emit('alert',)
+
         //alert(`hello,${res.data.loginname}!`)
+        
       }).catch(e => {
         alert(e)
       })

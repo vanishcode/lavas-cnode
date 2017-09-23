@@ -19,7 +19,9 @@ export default {
         ])
 
     },
+    
     // 只在第一次加载时启用
+
     async asyncData() {
         await new Promise((resolve, reject) => {
             setTimeout(resolve, 8000);
@@ -47,17 +49,5 @@ export default {
 $text-color := rgba($material-theme.text-color, $material-theme.primary-text-percent)
 
 .content
-    width 100%
-    position absolute
-    top 50%
-    left 50%
-    transform translate(-50%, -50%)
-
-    h2
-        font-size 46px
-        font-weight 500
-
-    h2, h4
-        color $text-color
 
 </style>
