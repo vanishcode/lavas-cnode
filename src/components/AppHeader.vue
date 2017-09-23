@@ -27,6 +27,7 @@
                 </v-btn>
             </slot>
         </div>
+        <!-- will be only render when page `login` -->
         <div class="qr-btn" node-type="qr-btn">
             <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码" />
             <input type="text" class="tmp" />

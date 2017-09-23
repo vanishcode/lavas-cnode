@@ -1,8 +1,7 @@
 <template>
     <div>
         <div class="content">
-            <h2>LAVAS - CNode</h2>
-
+            
         </div>
     </div>
 </template>
@@ -19,18 +18,18 @@ export default {
         ])
 
     },
-    
+
     // 只在第一次加载时启用
 
     async asyncData() {
         await new Promise((resolve, reject) => {
-            setTimeout(resolve, 8000);
+            setTimeout(resolve, 1000);
         });
     },
     activated() {
         this.setAppHeader({
             show: true,
-            title: 'Lavas',
+            title: 'CNode - Node.js专业中文社区',
             showMenu: true,
             showBack: false,
             showLogo: true,
@@ -48,6 +47,6 @@ export default {
 <style lang="stylus" scoped>
 $text-color := rgba($material-theme.text-color, $material-theme.primary-text-percent)
 
-.content
+.content{}
 
 </style>
