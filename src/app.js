@@ -25,6 +25,7 @@ import App from './App.vue';
 import Icon from 'vue-awesome/components/Icon.vue';
 import Badge from 'vuetify/src/directives/badge';
 
+// not fetch
 import axios from 'axios'
 
 Vue.prototype.$http = axios
