@@ -16,7 +16,11 @@ import {
     VGrid,
     VAvatar,
     VTextField,
-    VAlert
+    VAlert,
+    VChip,
+    VCard,
+    VSubHeader,
+    VMenu
 
 } from 'vuetify';
 import { createRouter } from './router';
@@ -44,7 +48,11 @@ Vue.use(Vuetify, {
         VGrid,
         VAvatar,
         VTextField,
-        VAlert
+        VAlert,
+        VChip,
+        VCard,
+        VSubHeader,
+        VMenu
     }
 });
 

@@ -37,17 +37,17 @@ module.exports = {
     dev: {
         env: require('./dev.env'),
         port: 8082,
-        autoOpenBrowser: true,
+        autoOpenBrowser: false,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
-            '/api': {
-                target: 'https://cnodejs.org',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api': '/api'
-                }
-            }
+            // '/api': {
+            //     target: 'https://cnodejs.org',
+            //     changeOrigin: true,
+            //     pathRewrite: {
+            //         '^/api': '/api'
+            //     }
+            // }
         },
 
         // CSS Sourcemaps off by default because relative paths are "buggy"

@@ -1,10 +1,10 @@
 <template>
-  <div class="login">
-    <div class="login-input-ak">
-      <v-text-field label="AccessToken,也可以扫描二维码↗" v-model="ak" :counter="36" required></v-text-field>
-      <v-btn block secondary dark @click.native="login">登录</v-btn>
-    </div>
+<div class="login">
+  <div class="login-input-ak">
+    <v-text-field label="AccessToken,也可以扫描二维码↗" v-model="ak" :counter="36" required></v-text-field>
+    <v-btn block secondary dark @click.native="login">登录</v-btn>
   </div>
+</div>
 </template>
 
 <script>
@@ -20,6 +20,14 @@ export default {
       ak: ''
     }
   },
+
+  mounted() {
+    //alert(this.$route.path)
+    // 处理二维码
+    if (this.$route.path == '/login') {
+      Qrcode.init($('[node-type=qr-btn]'))
+    }
+  },
   methods: {
     ...mapActions('appShell/appHeader', [
       'setAppHeader'
@@ -30,17 +38,23 @@ export default {
         accesstoken: this.ak
       }).then(res => {
         console.log(res)
-        EventBus.$emit('alert',)
+        EventBus.$emit('alert', )
 
-        //alert(`hello,${res.data.loginname}!`)
-        
+        alert(`hello,${res.data.loginname}!`)
+
       }).catch(e => {
         alert(e)
       })
     }
   },
 
+  updated() {
+    $('.tmp').on('click', function() {
+      EventBus.$emit('input-ak-through-qrcode', $(this).val())
+    })
+  },
   activated() {
+    //alert(this.$route.path)
     EventBus.$on('input-ak-through-qrcode', eventData => {
         this.ak = eventData
       }),

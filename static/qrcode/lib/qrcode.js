@@ -1,5 +1,4 @@
 (function($) {
-
     var Qrcode = function(tempBtn) {
         var _this_ = this;
         var isWeiboWebView = /__weibo__/.test(navigator.userAgent);
@@ -56,9 +55,12 @@
                 qrcode.decode(oFREvent.target.result);
                 qrcode.callback = function(data) {
                     //得到扫码的结果
-                    //console.log(data)
+
+                    console.log(data)
+
                     $('.tmp').val(data)
                     $('.tmp').click()
+
                 }
             };
 

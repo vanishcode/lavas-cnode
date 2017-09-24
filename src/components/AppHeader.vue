@@ -20,7 +20,7 @@
             </slot>
         </div>
         <div class="app-header-right">
-            <slot name="actions" v-for="(action, actionIdx) in actions" :icon="action.icon" :route="action.route">
+            <slot name="actions" v-for="(action, actionIdx) in actions" :icon="action.icon">
                 <v-btn icon="icon" @click.native="action.act">
                     <icon v-if="action.svg" :name="action.svg" class="app-header-icon"></icon>
                     <v-icon v-else-if="action.icon" class="app-header-icon">{{ action.icon }}</v-icon>
@@ -30,8 +30,8 @@
         <!-- will be only render when page `login` -->
         <div class="qr-btn" node-type="qr-btn">
             <input node-type="jsbridge" type="file" name="myPhoto" value="扫描二维码" />
-            <input type="text" class="tmp" />
         </div>
+        <input type="text" class="tmp" />
     </header>
 </transition>
 </template>
@@ -59,12 +59,7 @@ export default {
         ])
     },
     mounted() {
-
-        // 处理二维码
-        if (this.$route.path == '/login') {
-            Qrcode.init($('[node-type=qr-btn]'))
-        }
-        $('.tmp').on('click', function() {
+        $('.tmp').bind('click', function() {
             EventBus.$emit('input-ak-through-qrcode', $(this).val())
         })
     },

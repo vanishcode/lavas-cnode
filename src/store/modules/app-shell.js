@@ -230,7 +230,7 @@ export default {
                     list: [{
                         text: '用户',
                         icon: 'person',
-                        route: '/login'
+                        route: '/user'
                     }]
                 }, {
                     list: [{
@@ -239,13 +239,6 @@ export default {
                         route: '/message'
                     }]
                 }, {
-                    list: [{
-                        text: '设置',
-                        icon: 'settings',
-                        route: '/settings'
-                    }]
-                }, {
-
                     list: [{
                         text: '关于',
                         icon: 'info',

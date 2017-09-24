@@ -61,12 +61,9 @@ export function createRouter() {
                 component: Message
             },
             {
-                path: '/user/:id',
+                path: '/user/',
                 name: 'user',
-                component: User,
-                meta: {
-                    notKeepAlive: true
-                }
+                component: User
             },
             {
                 path: '/about',
@@ -81,7 +78,7 @@ export function createRouter() {
             {
                 path: '/login',
                 name: 'login',
-                component: Login
+                component: Login,
             }
         ]
     });
@@ -125,7 +122,7 @@ export function createRouter() {
  * @type {Array.<string>}
  * @const
  */
-const ALWAYS_BACK_PAGE = ['home', 'message'];
+const ALWAYS_BACK_PAGE = ['home'];
 
 /**
  * to 如果在这个列表中，始终采用从右到左的滑动效果
