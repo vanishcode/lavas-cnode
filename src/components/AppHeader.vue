@@ -58,11 +58,7 @@ export default {
             'isPageSwitching'
         ])
     },
-    mounted() {
-        $('.tmp').bind('click', function() {
-            EventBus.$emit('input-ak-through-qrcode', $(this).val())
-        })
-    },
+    
     methods: {
         /**
          * 处理按钮点击事件

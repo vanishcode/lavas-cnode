@@ -4,10 +4,9 @@
             <v-list two-line>
                 <template v-for="item in items">
                     
-
                     <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
                     <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
-                    <v-list-tile avatar v-else v-bind:key="item.title" @click="" download>
+                    <v-list-tile avatar v-else v-bind:key="item.title" @click="tt" download>
                         <v-list-tile-avatar>
                             <img v-bind:src="item.avatar">
                         </v-list-tile-avatar>
@@ -69,6 +68,9 @@ export default {
         }
     },
     methods: {
+        tt(){
+            this.$router.push('/detail/o')
+        },
         ...mapActions('appShell/appHeader', [
             'setAppHeader'
         ])

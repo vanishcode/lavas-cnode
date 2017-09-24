@@ -1,37 +1,23 @@
 <template>
     <div class="detail-wrapper">
-        <v-container grid-list-md text-xs-center>
-            <v-layout row wrap>
-                <v-flex xs10 offset-xs1>
-                    <article class="detail-content text-xs-center">
-                        <header class="detail-title text-xs-center">
-                            Detail {{$route.params.id}}
-                        </header>
-                        <router-link :to="{
-                            name: 'detail',
-                            params: {
-                                id: Number($route.params.id) + 1
-                            }
-                        }">
-                            Detail {{Number($route.params.id) + 1}}
-                        </router-link>
-                        <p>
-                        Progressive Web Apps are user experiences that have the reach of the web, and are:
-    Reliable - Load instantly and never show the downasaur, even in uncertain network conditions.
-    Fast - Respond quickly to user interactions with silky smooth animations and no janky scrolling.
-                        </p>
-                    </article>
-                </v-flex>
-            </v-layout>
-         </v-container>
+       <vue-markdown>{{content}}</vue-markdown>
     </div>
 </template>
 
 <script>
 import {mapActions} from 'vuex';
+import VueMarkdown from 'vue-markdown';
 
 export default {
     name: 'detail',
+    components:{
+        VueMarkdown
+    },
+    data(){
+        return{
+            content:"按照我的理解，一个`appid`对应一个`access_token` (可以刷新)，但是我看的[wechat-oauth](https://github.com/node-webot/wechat-oauth)库的markdown有个例子\r\n#### 自定义saveToken方法\r\n```\r\nTokenSchema.statics.setToken = function (openid, token, cb) {\r\n  // 有则更新，无则添加\r\n  var query = {openid: openid};\r\n  var options = {upsert: true};\r\n  this.update(query, token, options, function (err, result) {\r\n    if (err) throw err;\r\n    return cb(null);\r\n  });\r\n};\r\n\r\nmongoose.model('Token', 'TokenSchema');\r\n```\r\n#### 初始化：\r\n```\r\nvar client = new OAuth(appid, secret, function (openid, callback) {\r\n  // 传入一个根据openid获取对应的全局token的方法\r\n  // 在getUser时会通过该方法来获取token\r\n  Token.getToken(openid, callback);\r\n}, function (openid, token, callback) {\r\n  // 持久化时请注意，每个openid都对应一个唯一的token!\r\n  Token.setToken(openid, token, callback);\r\n});\r\n```\r\n为什么每个openid都对应一个唯一的token？求指点"
+        }
+    },
     methods: {
         ...mapActions('appShell/appHeader', [
             'setAppHeader'
@@ -42,18 +28,18 @@ export default {
             setTimeout(resolve, 500);
         });
     },
-    created() {
+    mounted() {
         this.setAppHeader({
             show: true,
-            title: 'Lavas',
+            title: '详情',
             showMenu: false,
             showBack: true,
             showLogo: false,
             actions: [
                 {
-                    icon: 'home',
-                    route: {
-                        name: 'home'
+                    icon: 'send',
+                    act:function(){
+                        alert('haha')
                     }
                 }
             ]
@@ -64,7 +50,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
+.detail-wrapper
+    width 95%
+    margin 0 auto
+// @import url(https://necolas.github.io/normalize.css/7.0.0/normalize.css);
 .detail-content
     font-size 16px
     line-height 30px

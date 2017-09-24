@@ -6,6 +6,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import * as types from './store/mutation-types';
+import o from './store';
 
 // 定义切割点，异步加载路由组件
 let Home = () =>
@@ -53,17 +54,38 @@ export function createRouter() {
             {
                 path: '/new',
                 name: 'new',
-                component: NewThread
+                component: NewThread,
+                beforeEnter(to, from, next) {
+                    if (localStorage.UserInfo != 'null') {
+                        next()
+                    } else {
+                        next('/login')
+                    }
+                }
             },
             {
                 path: '/message',
                 name: 'message',
-                component: Message
+                component: Message,
+                beforeEnter(to, from, next) {
+                    if (localStorage.UserInfo != 'null') {
+                        next()
+                    } else {
+                        next('/login')
+                    }
+                }
             },
             {
-                path: '/user/',
+                path: '/user',
                 name: 'user',
-                component: User
+                component: User,
+                beforeEnter(to, from, next) {
+                    if (localStorage.UserInfo != 'null') {
+                        next()
+                    } else {
+                        next('/login')
+                    }
+                }
             },
             {
                 path: '/about',
@@ -79,6 +101,13 @@ export function createRouter() {
                 path: '/login',
                 name: 'login',
                 component: Login,
+                beforeEnter(to, from, next) {
+                    if (localStorage.UserInfo != 'null') {
+                        next(from)
+                    } else {
+                        next()
+                    }
+                }
             }
         ]
     });
@@ -100,6 +129,7 @@ export function createRouter() {
     const SLIDE_RIGHT = 'slide-right';
 
     router.beforeEach((to, from, next) => {
+
         if (router.app.$store) {
 
             // 如果不需要切换动画，直接返回

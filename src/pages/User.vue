@@ -1,30 +1,40 @@
 <template>
-    <div class="app-user-page">
-        <div class="app-user-title text-xs-center">
-            <div class="user-avatar">
-                <p>
-                    <v-icon class="user-avatar-icon user-icon">face</v-icon>
-                </p>
-                <p>Lavas</p>
-            </div>
-
-            <v-list two-line subheader>
-                <template v-for="item in items">
-
-                    <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
-
-                    <v-list-tile avatar v-else v-bind:key="item.title" @click="" download>
-                        <v-list-tile-content>
-                            <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                            <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                    <v-divider v-if="item.header"></v-divider>
-                </template>
+<div class="app-user-page">
+    <div class="app-user-title text-xs-center">
+        <div class="user-avatar">
+            <p>
+                <v-icon v-if="!avatar" class="user-avatar-icon user-icon">face</v-icon>
+                <v-avatar class="grey lighten-4" size="64px">
+                    <img :src="avatar" alt="avatar">
+                </v-avatar>
+            </p>
+            <p>{{username}}</p>
+        </div>
+        <div class="content">
+            <v-list subheader>
+                <v-subheader>最近创建</v-subheader>
+                <v-list-tile v-for="item in items" avatar v-bind:key="item.title" @click="" download>
+                    <v-list-tile-content>
+                        <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                        <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <v-divider></v-divider>
             </v-list>
-      
+
+            <v-list subheader>
+                <v-subheader>最近回复</v-subheader>
+                <v-list-tile v-for="item in items" avatar v-bind:key="item.title" @click="">
+                    <v-list-tile-content>
+                        <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <v-divider></v-divider>
+            </v-list>
+
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -36,39 +46,23 @@ export default {
     name: 'user',
     data() {
         return {
+            avatar: JSON.parse(localStorage.getItem('UserInfo')).AvatarURL,
+            username: JSON.parse(localStorage.getItem('UserInfo')).UserName,
             items: [{
-                header: '最近回复'
-            }, {
-                title: 'Photos',
-                icon: 'photo_library',
-                subtitle: 'Jan 9, 2014'
-            },
-            {
-                title: 'Favorites',
-                icon: 'favorite',
-                subtitle: 'Feb 9, 2016'
-            },
-            {
-                title: 'Work',
-                icon: 'message',
-                subtitle: 'Nov 9, 2017'
-            },
-            {
-                header: '最近cahugnjian'
-            },
-            {
-                title: 'Work',
-                icon: 'message',
-                subtitle: 'Nov 9, 2017'
-            }, {
-                title: 'Work',
-                icon: 'message',
-                subtitle: 'Nov 9, 2017'
-            }, {
-                title: 'Work',
-                icon: 'message',
-                subtitle: 'Nov 9, 2017'
-            },
+                    title: 'Node.js重量级应用中到底表现如何？若是和Java和Python比较呢？',
+                    icon: 'photo_library',
+                    subtitle: 'Jan 9, 2014'
+                },
+                {
+                    title: 'Favorites',
+                    icon: 'favorite',
+                    subtitle: 'Feb 9, 2016'
+                },
+                {
+                    title: 'Node.js重量级应用中到底表现如何？若是和Java和Python比较呢？',
+                    icon: 'message',
+                    subtitle: 'Nov 9, 2017'
+                },
             ]
         };
     },
@@ -88,7 +82,8 @@ export default {
             actions: [{
                 icon: 'exit_to_app',
                 act: function() {
-                    that.store.dispatch()
+                    localStorage.UserInfo = 'null'
+                    that.$router.push('/login')
                 }
             }]
         });

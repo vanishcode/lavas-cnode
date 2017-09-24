@@ -13,6 +13,5 @@ export const ACTIVATE_APP_BOTTOM_NAV = 'ACTIVATE_APP_BOTTOM_NAV';
 export const SET_SIDEBAR_VISIBILITY = 'SET_SIDEBAR_VISIBILITY';
 export const SAVE_SCROLLTOP = 'SAVE_SCROLLTOP';
 
-// `message` page badge at bottom bar
-export const MESSAGE_NOT_READ = 'MESSAGE_NOT_READ'
-export const MESSAGE_ALREADY_READ = 'MESSAGE_ALREADY_READ'
+export const login = 'login'
+    // loading alert notifiation

@@ -12,7 +12,6 @@ let themeList = {
     myTheme: {
         themeColor: {
             primary: '#000',
-            //'rgb(40, 116, 240)',
             accent: '$blue.accent-2',
             secondary: '$grey.darken-3',
             info: '$blue.base',
