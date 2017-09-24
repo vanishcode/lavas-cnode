@@ -35,21 +35,17 @@ export function createRouter() {
         mode: 'history',
         routes: [{
                 path: '/',
-                name: 'home',
                 component: Home
             },
             {
-                path: '/home',
+                path: '/home/:id',
                 name: 'home',
                 component: Home
             },
             {
                 path: '/detail/:id',
                 name: 'detail',
-                component: Detail,
-                meta: {
-                    notKeepAlive: true
-                }
+                component: Detail
             },
             {
                 path: '/new',
@@ -152,7 +148,7 @@ export function createRouter() {
  * @type {Array.<string>}
  * @const
  */
-const ALWAYS_BACK_PAGE = ['home'];
+const ALWAYS_BACK_PAGE = [];
 
 /**
  * to 如果在这个列表中，始终采用从右到左的滑动效果
@@ -160,7 +156,7 @@ const ALWAYS_BACK_PAGE = ['home'];
  * @type {Array.<string>}
  * @const
  */
-const ALWAYS_FORWARD_PAGE = ['message', 'user'];
+const ALWAYS_FORWARD_PAGE = ['home', 'message', 'user', 'about', 'new', 'login', 'detail'];
 
 /**
  * 历史记录，记录访问过的页面的 fullPath

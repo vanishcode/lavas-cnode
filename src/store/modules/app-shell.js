@@ -203,27 +203,27 @@ export default {
                     list: [{
                             text: '全部',
                             icon: 'view_list',
-                            route: '/home'
+                            route: '/home/all'
                         },
                         {
                             text: '精华',
                             icon: 'thumb_up',
-                            route: '/home'
+                            route: '/home/good'
                         },
                         {
                             text: '分享',
                             icon: 'device_hub',
-                            route: '/share'
+                            route: '/home/share'
                         },
                         {
                             text: '问答',
                             icon: 'question_answer',
-                            route: '/ask'
+                            route: '/home/ask'
                         },
                         {
                             text: '招聘',
                             icon: 'work',
-                            route: '/job'
+                            route: '/home/job'
                         }
                     ]
                 }, {
