@@ -1,6 +1,36 @@
 <template>
 <div class="detail-wrapper">
-    <vue-markdown>{{content}}</vue-markdown>
+        <v-list two-line>
+            <v-list-tile avatar v-bind:key="article.title">
+                <v-list-tile-avatar>
+                    <img v-bind:src="article.avatar">
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                    <v-list-tile-title>
+                        <span style='font-size:15px!important;color:black'>{{article.title}}</span>
+                    </v-list-tile-title>
+                    <span style='margin-top:5px;font-size:10px!important;color:#6c6c6c'>作者: {{article.author}}&nbsp&nbsp|&nbsp&nbsp来自: {{article.tab}}</span>
+                </v-list-tile-content>
+            </v-list-tile>
+            <v-divider></v-divider>
+        </v-list>
+        <vue-markdown v-if="article.content">{{article.content}}</vue-markdown>
+
+    
+    <v-list three-line>
+        <template v-for="item in reply_list">
+            <v-divider v-bind:inset="item.inset"></v-divider>
+            <v-list-tile avatar v-bind:key="item.title" @click="">
+              <v-list-tile-avatar>
+                <img v-bind:src="item.avatar">
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>{{item.author}} 说：</v-list-tile-title>
+                <v-list-tile-sub-title><vue-markdown v-if="item.content">{{item.content}}</vue-markdown></v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+        </template>
+    </v-list>
 </div>
 </template>
 
@@ -17,7 +47,14 @@ export default {
     },
     data() {
         return {
-            content: "按照我的理解，一个`appid`对应一个`access_token` (可以刷新)，但是我看的[wechat-oauth](https://github.com/node-webot/wechat-oauth)库的markdown有个例子\r\n#### 自定义saveToken方法\r\n```\r\nTokenSchema.statics.setToken = function (openid, token, cb) {\r\n  // 有则更新，无则添加\r\n  var query = {openid: openid};\r\n  var options = {upsert: true};\r\n  this.update(query, token, options, function (err, result) {\r\n    if (err) throw err;\r\n    return cb(null);\r\n  });\r\n};\r\n\r\nmongoose.model('Token', 'TokenSchema');\r\n```\r\n#### 初始化：\r\n```\r\nvar client = new OAuth(appid, secret, function (openid, callback) {\r\n  // 传入一个根据openid获取对应的全局token的方法\r\n  // 在getUser时会通过该方法来获取token\r\n  Token.getToken(openid, callback);\r\n}, function (openid, token, callback) {\r\n  // 持久化时请注意，每个openid都对应一个唯一的token!\r\n  Token.setToken(openid, token, callback);\r\n});\r\n```\r\n为什么每个openid都对应一个唯一的token？求指点"
+            article: {
+                avatar: '',
+                author: '',
+                tab: '',
+                title: '',
+                content: ''
+            },
+            reply_list: [],
         }
     },
     methods: {
@@ -27,12 +64,41 @@ export default {
     },
     async asyncData() {
         await new Promise((resolve, reject) => {
-            setTimeout(resolve, 500);
+            setTimeout(resolve, 1500);
         });
     },
     activated() {
+        var plate_name = {
+            'good': '精华',
+            'share': '分享',
+            'job': '招聘',
+            'ask': '问答'
+        }
         // keep-alive 组件激活时调用
-        console.log(this.$route.params)
+        this
+            .$http(`https://cnodejs.org/api/v1/topic/${this.$route.params.id}?mdrender=false`)
+            .then(res => {
+                //console.log(res);
+                this.article.avatar = res.data.data.author.avatar_url;
+                this.article.author = res.data.data.author.loginname;
+                this.article.tab = plate_name[res.data.data.tab];
+                this.article.title = res.data.data.title;
+                this.article.content = res.data.data.content;
+
+                //console.log(this.article.content)
+                res.data.data.replies.forEach((e, i) => {
+                    this.reply_list.push({
+                        avatar: e.author.avatar_url,
+                        content: e.content,
+                        author: e.author.loginname,
+                    })
+                }, this);
+                //console.log(this.posts_list)
+            }).catch(e => {
+                alert(e)
+                this.$router.go(-1)
+            })
+
         this.setAppHeader({
             show: true,
             title: '详情',
@@ -42,7 +108,7 @@ export default {
             actions: [{
                 icon: 'send',
                 act: function() {
-                    alert('haha')
+                    alert('我还没做回复功能呢，下次吧！~~')
                 }
             }]
         });
@@ -51,11 +117,18 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
+@import url(https://necolas.github.io/normalize.css/7.0.0/normalize.css);
+blockquote
+    padding 0
+    p
+        font-size 15px !important
 .detail-wrapper
     width 95%
     margin 0 auto
-// @import url(https://necolas.github.io/normalize.css/7.0.0/normalize.css);
+    img 
+        max-width 100% !important;
+        max-height 100% !important;
 .detail-content
     font-size 16px
     line-height 30px
@@ -66,5 +139,11 @@ export default {
         padding 10px 0
         font-size 36px
         font-weight bold
+    .list_title_content
+        padding-top 10px
 
+.list__tile__title div p  
+    overflow hidden
+    white-space nowrap
+    text-overflow ellipsis
 </style>

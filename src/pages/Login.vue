@@ -1,17 +1,17 @@
 <template>
-<div class="login">
-  <!-- <v-alert
-      success
-      :value="alert"
-      transition="scale-transition"
-    >
-     登陆成功
-    </v-alert> -->
-  <div class="login-input-ak">
-    <v-text-field label="AccessToken,也可以扫描二维码↗" v-model="ak" :counter="36" required></v-text-field>
-    <v-btn block secondary dark @click.native="login">登录</v-btn>
+  <div class="login">
+    <!-- <v-alert
+        success
+        :value="alert"
+        transition="scale-transition"
+      >
+       登陆成功
+      </v-alert> -->
+    <div class="login-input-ak">
+      <v-text-field label="AccessToken,也可以扫描二维码↗" v-model="ak" :counter="36" required></v-text-field>
+      <v-btn block secondary dark @click.native="login">登录</v-btn>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -46,7 +46,10 @@ export default {
       'login'
     ]),
     login() {
-      console.log(this.ak)
+      if (this.ak.length !== 36) {
+        alert('请输入正确的accesstoken！')
+        return
+      }
       this.$http.post('https://cnodejs.org/api/v1/accesstoken', {
         accesstoken: this.ak
       }).then(res => {
@@ -66,12 +69,10 @@ export default {
       })
     }
   },
-
-
   activated() {
     EventBus.$on('input-ak-through-qrcode', eventData => {
-        this.ak = eventData
-      }),
+      this.ak = eventData
+    }),
       this.setAppHeader({
         show: true,
         title: '请登录',

@@ -34,8 +34,8 @@ export function createRouter() {
         // history 模式，需要服务器后端配合做路由代理，将所有的前端路由同步代理到 /
         mode: 'history',
         routes: [{
-                path: '/',
-                component: Home
+                path: '',
+                redirect: '/home/all'
             },
             {
                 path: '/home/:id',
@@ -148,7 +148,7 @@ export function createRouter() {
  * @type {Array.<string>}
  * @const
  */
-const ALWAYS_BACK_PAGE = [];
+const ALWAYS_BACK_PAGE = ['home'];
 
 /**
  * to 如果在这个列表中，始终采用从右到左的滑动效果

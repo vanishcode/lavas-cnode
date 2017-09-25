@@ -1,26 +1,23 @@
 <template>
 <div class="content">
-    <div v-for="item in items">
-        <v-list two-line>
-            <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
-            <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
-            <v-list-tile avatar v-else v-bind:key="item.title" @click="tt" download>
+    <v-list two-line>
+        <template v-for="item in posts_list">
+            <v-divider v-if="item.divider" v-bind:inset="item.inset"></v-divider>
+            <v-list-tile avatar v-else v-bind:key="item.title" @click="detail(item.id)">
                 <v-list-tile-avatar>
                     <img v-bind:src="item.avatar">
                 </v-list-tile-avatar>
-
                 <v-list-tile-content>
                     <v-list-tile-title>
-                        <span style='font-size:15px!important;color:black'>为什么我写一个脚本，在本地运行的时候没问题，但在docker里面就会报错？SyntaxError: Unexpected token ...</span>
-
-                        <div style='overflow:hidden;white-space: nowrap;text-overflow:ellipsis!important;color:#8a8a8a;font-size:12px !important;'>因为 2016 年面试了很多做 Node.js 的同学，发现大部分做 Node 的同学都是前端转过来的，</div>
+                        {{item.title}}
                     </v-list-tile-title>
-                    <span style='font-size:10px!important;color:#6c6c6c'>13/13244&nbsp&nbsp|&nbsp &nbsp作者: 李大毛 &nbsp&nbsp|&nbsp &nbsp最后回复: 2018-9-11</span>
+                    <v-list-tile-sub-title>
+                        {{item.reply_count}}/{{item.visit_count}}&nbsp&nbsp|&nbsp&nbsp{{item.author}} &nbsp&nbsp|&nbsp&nbsp最后回复: {{item.last_reply_at}}
+                    </v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>
-            <v-divider></v-divider>
-        </v-list>
-    </div>
+        </template>
+    </v-list>
 </div>
 </template>
 
@@ -31,50 +28,46 @@ import {
 
 export default {
     name: 'home',
-    props: {},
     data() {
         return {
-
-            items: [
-
-                {
-                    avatar: 'https://avatars1.githubusercontent.com/u/5373041?v=3&s=120',
-                    title: '<span class="grey--text text--lighten-1" style="margin-right:10px;float:right;font-size:10px">1113/13244</span>',
-                    subtitle: "",
-
-                },
-                {
-                    avatar: 'https://avatars1.githubusercontent.com/u/5373041?v=3&s=120',
-                    title: '<span class="grey--text text--lighten-1" style="margin-right:10px;float:right;font-size:10px">1113/13244</span>',
-                    subtitle: "",
-
-                }, {
-                    avatar: 'https://avatars1.githubusercontent.com/u/5373041?v=3&s=120',
-                    title: '<span class="grey--text text--lighten-1" style="margin-right:10px;float:right;font-size:10px">1113/13244</span>',
-                    subtitle: "",
-
-                }
-            ]
+            posts_list: []
         }
     },
     methods: {
-        tt() {
-            this.$router.push('/detail/o')
+        detail(id) {
+            this.$router.push(`/detail/${id}`)
         },
         ...mapActions('appShell/appHeader', [
             'setAppHeader'
         ])
-
     },
-
     // 只在第一次加载时启用
-
     async asyncData() {
         await new Promise((resolve, reject) => {
             setTimeout(resolve, 1000);
         });
     },
     activated() {
+        this.posts_list = []
+        this
+            .$http(`https://cnodejs.org/api/v1/topics?tab=${this.$route.params.id}&mdrender=false`)
+            .then(res => {
+                //console.log(res)
+                res.data.data.forEach((e, i) => {
+                    this.posts_list.push({
+                        avatar: e.author.avatar_url,
+                        title: e.title,
+                        visit_count: e.visit_count,
+                        reply_count: e.reply_count,
+                        author: e.author.loginname,
+                        last_reply_at: e.last_reply_at.substring(0, 10),
+                        id: e.id
+                    })
+                }, this);
+                //console.log(this.posts_list)
+            }).catch(e => {
+                alert(e)
+            })
         var plate_name = {
             'all': 'CNode - Node.js专业中文社区',
             'good': '精华',
