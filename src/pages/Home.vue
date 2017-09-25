@@ -12,7 +12,7 @@
                         {{item.title}}
                     </v-list-tile-title>
                     <v-list-tile-sub-title>
-                        {{item.reply_count}}/{{item.visit_count}}&nbsp&nbsp|&nbsp&nbsp{{item.author}} &nbsp&nbsp|&nbsp&nbsp最后回复: {{item.last_reply_at}}
+                        {{item.reply_count}}/{{item.visit_count}}&nbsp&nbsp|&nbsp&nbsp{{item.author}} &nbsp&nbsp|&nbsp&nbsp{{item.last_reply_at}}
                     </v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>

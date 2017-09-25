@@ -3,7 +3,7 @@
 
   <v-text-field label="标题" v-model="title" :rules="nameRules" required></v-text-field>
 
-  <mavon-editor style="height: 80%" v-model="content" default_open="edit"></mavon-editor>
+  <mavon-editor style="height: 75%" v-model="content" default_open="edit"></mavon-editor>
 
   <v-menu offset-y style="flex-grow:1">
     <v-btn light slot="activator">{{select}}</v-btn>
@@ -64,6 +64,7 @@ export default {
     },
     clearContent() {
       this.content = ''
+      this.title = ''
     },
     sendArticle() {
       if (this.title == '' || this.content == '') return
