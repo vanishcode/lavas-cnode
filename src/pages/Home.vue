@@ -67,6 +67,7 @@ export default {
                 //console.log(this.posts_list)
             }).catch(e => {
                 alert(e)
+                 this.$router.go(-1)
             })
         var plate_name = {
             'all': 'CNode - Node.js专业中文社区',

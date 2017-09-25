@@ -86,7 +86,7 @@ export default {
                 this.article.content = res.data.data.content;
 
                 //console.log(this.article.content)
-                res.data.data.replies.forEach((e, i) => {
+                res.data.data.replies.forEach((e) => {
                     this.reply_list.push({
                         avatar: e.author.avatar_url,
                         content: e.content,

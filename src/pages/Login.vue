@@ -66,6 +66,7 @@ export default {
         this.ak = ''
       }).catch(e => {
         alert(e)
+         this.$router.go(-1)
       })
     }
   },

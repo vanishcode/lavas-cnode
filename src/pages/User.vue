@@ -10,30 +10,49 @@
             </p>
             <p>{{username}}</p>
         </div>
-        <div class="content">
+        <div class="topics">
             <v-list subheader>
                 <v-subheader>最近创建</v-subheader>
-                <v-list-tile v-for="item in items" avatar v-bind:key="item.title" @click="" download>
+                <v-list-tile v-if="recent_topics.length==0">
                     <v-list-tile-content>
-                        <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                        <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                        <v-list-tile-title>啥也咩有...(⊙ˍ⊙)</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-                <v-divider></v-divider>
-            </v-list>
 
+                <div v-for="item in recent_topics">
+                    <v-list-tile avatar v-bind:key="item.title" @click="detail(item.id)" download>
+                        <v-list-tile-content>
+                            <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                            <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                    <v-divider></v-divider>
+                </div>
+            </v-list>
+        </div>
+
+        <div class="reply">
             <v-list subheader>
-                <v-subheader>最近回复</v-subheader>
-                <v-list-tile v-for="item in items" avatar v-bind:key="item.title" @click="">
+                <v-subheader>最近参与</v-subheader>
+                <v-list-tile v-if="recent_replies.length==0">
                     <v-list-tile-content>
-                        <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                        <v-list-tile-title>啥也咩有...(⊙ˍ⊙)</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-                <v-divider></v-divider>
-            </v-list>
 
+                <div v-for="item in recent_replies">
+                    <v-list-tile avatar v-bind:key="item.title" @click="detail(item.id)">
+                        <v-list-tile-content>
+                            <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                            <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                    <v-divider></v-divider>
+                </div>
+            </v-list>
         </div>
     </div>
+</div>
 </div>
 </template>
 
@@ -48,30 +67,41 @@ export default {
         return {
             avatar: JSON.parse(localStorage.getItem('UserInfo')).AvatarURL,
             username: JSON.parse(localStorage.getItem('UserInfo')).UserName,
-            items: [{
-                    title: 'Node.js重量级应用中到底表现如何？若是和Java和Python比较呢？',
-                    icon: 'photo_library',
-                    subtitle: 'Jan 9, 2014'
-                },
-                {
-                    title: 'Favorites',
-                    icon: 'favorite',
-                    subtitle: 'Feb 9, 2016'
-                },
-                {
-                    title: 'Node.js重量级应用中到底表现如何？若是和Java和Python比较呢？',
-                    icon: 'message',
-                    subtitle: 'Nov 9, 2017'
-                },
-            ]
+            recent_topics: [],
+            recent_replies: []
         };
     },
     methods: {
+        detail(id) {
+            this.$router.push(`/detail/${id}`)
+        },
         ...mapActions('appShell/appHeader', [
             'setAppHeader'
         ])
     },
     activated() {
+        // load user data
+        this.$http.get(`https://cnodejs.org/api/v1/user/${this.username}`)
+            .then(res => {
+                //console.log(res)
+                res.data.data.recent_topics.forEach(function(e) {
+                    this.recent_topics.push({
+                        id: e.id,
+                        title: e.title,
+                        subtitle: e.last_reply_at.substring(0, 10),
+                    })
+                    this.recent_replies.push({
+                        id: e.id,
+                        title: e.title,
+                        subtitle: e.last_reply_at.substring(0, 10),
+                    })
+                }, this);
+            })
+            .catch(e => {
+                alert(e)
+                this.$router.go(-1)
+            })
+        // headbar
         var that = this
         this.setAppHeader({
             show: true,
