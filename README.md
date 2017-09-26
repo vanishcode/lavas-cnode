@@ -19,6 +19,8 @@
 
 ![](https://ws2.sinaimg.cn/large/006tNc79ly1fjx6430u3xj30u01den5h.jpg)
 
+
+
 ###  技术栈
 
 项目结构: Baidu Lavas -> Vuetify + ES6 + Stylus + Vue全家桶
@@ -30,19 +32,18 @@
 ###  关于此PWA
 
 * 二维码识别尚存在Bug
-
 * 反馈建议请至 Issue 或发送邮件至 [vanishcode@gmail.com](vanishcode@gmail.com)
-
 * Https 证书是自签的，因为域名没有时间备案
-
 * 这只是一个入门的demo项目，代码可能很水，勿喷
 
-  ​
+
 
 ### 关于Lavas Project及Google PWA
 
 * [Lavas](https://lavas.baidu.com)
 * [Google PWA Introduction](https://developers.google.cn/web/progressive-web-apps)
+
+
 
 ### License
 
