@@ -6,7 +6,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import * as types from './store/mutation-types';
-import o from './store';
 
 // 定义切割点，异步加载路由组件
 let Home = () =>
@@ -52,7 +51,7 @@ export function createRouter() {
                 name: 'new',
                 component: NewThread,
                 beforeEnter(to, from, next) {
-                    if (localStorage.UserInfo != 'null') {
+                    if (localStorage.UserInfo != undefined) {
                         next()
                     } else {
                         next('/login')
@@ -64,7 +63,7 @@ export function createRouter() {
                 name: 'message',
                 component: Message,
                 beforeEnter(to, from, next) {
-                    if (localStorage.UserInfo != 'null') {
+                    if (localStorage.UserInfo != undefined) {
                         next()
                     } else {
                         next('/login')
@@ -76,11 +75,12 @@ export function createRouter() {
                 name: 'user',
                 component: User,
                 beforeEnter(to, from, next) {
-                    if (localStorage.UserInfo != 'null') {
+                    if (localStorage.UserInfo != undefined) {
                         next()
                     } else {
                         next('/login')
                     }
+
                 }
             },
             {
@@ -98,7 +98,7 @@ export function createRouter() {
                 name: 'login',
                 component: Login,
                 beforeEnter(to, from, next) {
-                    if (localStorage.UserInfo != 'null') {
+                    if (localStorage.UserInfo != undefined) {
                         next(from)
                     } else {
                         next()

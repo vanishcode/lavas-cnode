@@ -78,7 +78,7 @@ export default {
         // load messages
         this.$http.get(`https://cnodejs.org/api/v1/messages?accesstoken=${this.ak}`)
             .then(res => {
-                console.log(res)
+                //console.log(res)
                 res.data.data.hasnot_read_messages.forEach(function(e) {
                     this.has_not_read_messages.push({
                         id:e.topic.id,

@@ -65,8 +65,8 @@ export default {
     name: 'user',
     data() {
         return {
-            avatar: JSON.parse(localStorage.getItem('UserInfo')).AvatarURL,
-            username: JSON.parse(localStorage.getItem('UserInfo')).UserName,
+            avatar: JSON.parse(localStorage.getItem('UserInfo')).AvatarURL||'',
+            username: JSON.parse(localStorage.getItem('UserInfo')).UserName||'',
             recent_topics: [],
             recent_replies: []
         };

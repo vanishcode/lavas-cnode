@@ -38,7 +38,6 @@ export default {
   },
   data() {
     return {
-      ak: JSON.parse(localStorage.getItem('UserInfo')).AccessToken,
       tab: '',
       select: '选择版块',
       content: '',
@@ -69,7 +68,7 @@ export default {
     sendArticle() {
       if (this.title == '' || this.content == '') return
       this.$http.post('https://cnodejs.org/api/v1/topics', {
-        accesstoken: this.ak,
+        accesstoken: JSON.parse(localStorage.getItem('UserInfo')).AccessToken,
         title: this.title,
         tab: this.tab,
         content: this.content
